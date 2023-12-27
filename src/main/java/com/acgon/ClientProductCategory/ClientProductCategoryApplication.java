@@ -1,0 +1,13 @@
+package com.acgon.ClientProductCategory;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ClientProductCategoryApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ClientProductCategoryApplication.class, args);
+	}
+
+}
