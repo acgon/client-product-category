@@ -5,6 +5,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "Client")
 public class Client {
+    public Client(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Client() {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
