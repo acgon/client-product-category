@@ -1,10 +1,14 @@
 package com.acgon.ClientProductCategory.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
+setterVisibility = JsonAutoDetect.Visibility.NONE)
 @Entity
 @Table(name = "Product")
 public class Product {
@@ -15,21 +19,18 @@ public class Product {
 
     private String name;
 
-    public Demand getOrder() {
-        return demand;
-    }
+    private double price;
 
-    public void setOrder(Demand demand) {
-        this.demand = demand;
-    }
+    @ManyToOne
+    @JsonIgnoreProperties("products")
+    @JoinColumn(name = "demand_id")
+    private Demand demand;
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
+    @ManyToMany
+    @JsonIgnoreProperties("products")
+    @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "category_id"),
+    inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Category> categories;
 
     public Product(Long id, String name, double price, Demand demand) {
         this.id = id;
@@ -38,19 +39,6 @@ public class Product {
     }
 
     public Product() {}
-
-    private double price;
-
-    @ManyToOne
-    @JoinColumn(name = "demand_id")
-    private Demand demand;
-
-    @ManyToMany
-    @JoinTable(name = "Product_Category", joinColumns = @JoinColumn(name = "category_id"),
-    inverseJoinColumns = @JoinColumn(name = "product_id"))
-    @Autowired
-    private Set<Category> categories;
-
 
     public Long getId() {
         return id;
@@ -74,5 +62,29 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Demand getDemand() {
+        return demand;
+    }
+
+    public void setDemand(Demand demand) {
+        this.demand = demand;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        this.categories.remove(category);
     }
 }

@@ -1,25 +1,24 @@
 package com.acgon.ClientProductCategory.entities;
 
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
+setterVisibility = JsonAutoDetect.Visibility.NONE)
 @Entity
 @Table(name = "Category")
 public class Category {
-    public Set<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Set<Product> products) {
-        this.products = products;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    @JsonIgnoreProperties("categories")
+    private Set<Product> products;
 
     public Category(Long id, String name, Set<Product> products) {
         this.id = id;
@@ -28,10 +27,6 @@ public class Category {
     }
 
     public Category() {}
-
-    @ManyToMany(mappedBy = "categories")
-    @Autowired
-    private Set<Product> products;
 
     public Long getId() {
         return id;
@@ -48,4 +43,21 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+    }
+
 }

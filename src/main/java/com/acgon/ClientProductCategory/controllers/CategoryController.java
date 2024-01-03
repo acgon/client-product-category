@@ -2,6 +2,7 @@ package com.acgon.ClientProductCategory.controllers;
 
 import com.acgon.ClientProductCategory.entities.Category;
 import com.acgon.ClientProductCategory.repositories.CategoryRepository;
+import com.acgon.ClientProductCategory.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,9 @@ public class CategoryController {
 
     @Autowired
     CategoryRepository repository;
+
+    @Autowired
+    CategoryService service;
 
     @GetMapping
     public List<Category> findAll() {
@@ -40,5 +44,15 @@ public class CategoryController {
     @DeleteMapping(value = "/{id}")
     public void deleteById(@PathVariable Long id) {
         repository.deleteById(id);
+    }
+
+    @PutMapping(value = "/product/{category_id}")
+    public Category addProduct(@PathVariable Long category_id, @RequestParam(name = "product_id") Long product_id) {
+        return service.addProduct(product_id, category_id);
+    }
+
+    @DeleteMapping(value = "/product/{category_id}")
+    public Category removeProduct(@PathVariable Long category_id, @RequestParam(name = "product_id") Long product_id) {
+        return service.removeProduct(product_id, category_id);
     }
 }

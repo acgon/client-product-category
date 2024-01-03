@@ -2,6 +2,7 @@ package com.acgon.ClientProductCategory.controllers;
 
 import com.acgon.ClientProductCategory.entities.Client;
 import com.acgon.ClientProductCategory.repositories.ClientRepository;
+import com.acgon.ClientProductCategory.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,9 @@ public class ClientController {
 
     @Autowired
     private ClientRepository repository;
+
+    @Autowired
+    private ClientService service;
 
     @GetMapping
     public List<Client> findAll() {
@@ -40,5 +44,15 @@ public class ClientController {
     @DeleteMapping(value = "/{id}")
     public void deleteById(@PathVariable Long id) {
         repository.deleteById(id);
+    }
+
+    @PutMapping(value = "/demand/{client_id}")
+    public Client addDemand(@PathVariable Long client_id, @RequestParam(name = "demand_id") Long demand_id) {
+        return service.addDemand(client_id, demand_id);
+    }
+
+    @DeleteMapping(value = "/demand/{id}")
+    public Client removeDemand(@PathVariable Long id) {
+        return service.removeDemand(id);
     }
 }
