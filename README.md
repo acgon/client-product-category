@@ -10,7 +10,7 @@ Categoria: Representa as categorias às quais os produtos pertencem.
 
 ## Relacionamentos:
 
-###Relacionamento 1 para 1 (1:1):
+### Relacionamento 1 para 1 (1:1):
 Entre Cliente e Pedido.
 Cada cliente pode fazer apenas um pedido (e vice-versa).
 Exemplo: Um cliente faz um único pedido.
