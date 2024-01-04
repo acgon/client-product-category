@@ -17,7 +17,7 @@ public class Category {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonIgnoreProperties("categories")
+    @JsonIgnoreProperties({"categories", "demand"})
     private Set<Product> products;
 
     public Category(Long id, String name, Set<Product> products) {

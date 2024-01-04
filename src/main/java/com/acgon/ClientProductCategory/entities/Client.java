@@ -10,7 +10,8 @@ public class Client {
     private Long id;
     private String name;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne
+    @JoinColumn(name = "demand_id")
     private Demand demand;
 
     public Client(Long id, String name) {

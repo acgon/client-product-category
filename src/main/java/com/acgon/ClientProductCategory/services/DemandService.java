@@ -32,13 +32,17 @@ public class DemandService {
         Client client = clientRepository.findById(client_id).get();
         Demand demand = demandRepository.findById(demand_id).get();
         demand.setClient(client);
+        client.setDemand(demand);
+        clientRepository.save(client);
         return demandRepository.save(demand);
     }
 
     @Transactional
     public Demand removeClient(Long id) {
         Demand demand = demandRepository.findById(id).get();
+        Client client = clientRepository.findById(demand.getClient().getId()).get();
         demand.setClient(null);
+        clientRepository.save(client);
         return demandRepository.save(demand);
     }
 
